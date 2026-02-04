@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Desk</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="desk-view">
+
+    <a href="items/notebook.html" class="desk-item-image-link" style="top: 18%; left: 15%;">
+        <img class="desk-item-image" src="images/notebook.png" alt="Heavily used notebook">
+    </a>
+
+    <div class="desk-item desk-item-label" style="top: 32%; left: 15%;">
+         heavily used notebook
+    </div>
+
+    <a href="items/earphone.html" class="desk-item-image-link" style="top: 32%; left: 45%;">
+        <img class="desk-item-image" src="images/earphone.png" alt="Earphone">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 46%; left: 45%;">
+        earphone
+    </div>
+
+    <a href="items/doll.html" class="desk-item-image-link" style="top: 6%; right: 10%;">
+        <img class="desk-item-image" src="images/doll.png" alt="White doll">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 20%; right: 10%;">
+        white doll
+    </div>
+
+    <a href="items/button.html" class="desk-item-image-link" style="top: 56%; right: 20%; transform: rotate(-5deg);">
+        <img class="desk-item-image" src="images/button.png" alt="Blue button">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 70%; right: 20%; transform: rotate(-5deg);">
+        blue button
+    </div>
+
+    <a href="items/lipbalm.html" class="desk-item-image-link" style="top: 48%; left: 10%;">
+        <img class="desk-item-image lipbalm--small" src="images/lipbalm.png" alt="Lip balm">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 62%; left: 10%;">
+        lip balm
+    </div>
+
+    <a href="items/keychain.html" class="desk-item-image-link" style="top: 68%; left: 40%;">
+        <img class="desk-item-image" src="images/keychain.png" alt="Fish keychain">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 82%; left: 40%;">
+        fish keychain
+    </div>
+
+    <a href="#" class="desk-item-image-link desk-item-music" style="top: 12%; left: 55%;">
+        <img class="desk-item-image" src="images/playmusic.png" alt="Play music">
+    </a>
+    <div class="desk-item desk-item-label" style="top: 26%; left: 55%;">
+        play music
+    </div>
+
+    <nav style="position: fixed; bottom: 10px; left: 10px;">
+        <a href="map.html">Site Map</a> | <a href="documentation.html">Docs</a>
+    </nav>
+
+    <script>
+        const playClickSound = () => {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return;
+            const ctx = new AudioContextClass();
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(880, now);
+            osc.frequency.exponentialRampToValueAtTime(1320, now + 0.08);
+
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+            osc.connect(gain).connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.14);
+
+            osc.onended = () => ctx.close();
+        };
+
+        document.querySelectorAll(".desk-item-image-link:not(.desk-item-music)").forEach((el) => {
+            el.addEventListener("pointerdown", playClickSound, { passive: true });
+        });
+
+    </script>
+    <script src="music.js"></script>
+</body>
+</html>
