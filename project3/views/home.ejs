@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> knitting helper</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="upload-section">
+
+  <div class="page">
+      <h2>Add a New Pattern</h2>
+        <form class="upload-card" method="POST" action="/upload" enctype="multipart/form-data">
+
+            <div class="form-grid">
+              <input type="text" name="text" placeholder="Title" class="text-input"/>
+              <input type="text" name="author" placeholder="Author" class="text-input"/>
+              <textarea name="description" placeholder="tell us about your pattern..." class="text-input"></textarea>
+            </div>
+
+            <div class="submit-container">
+              <div>
+                  <label for="file-upload" class="custom-file-upload">
+                    Choose Image
+                </label>
+                <input id="file-upload" name="theimage" type="file" />
+            </div>
+                <div>
+                  <input type="submit" name="submitbutton" value="Upload" />
+                </div>
+          </form>
+
+      <h2>Get Started</h2>
+      <div class="row">
+        <div class="box"><img src="/images/get started.jpg"></div>
+      </div>
+
+
+      <div class="gallery-grid">
+          <% for(let post of clientPosts) { %>
+          <div class="post">
+              <span class="date"> <%= post.date %></span>
+              <% if(post.image) { %>
+                  <img src="<%=post.image %>">
+              <% } %>
+          <div class="project-info">
+              <p class="project-text"><%= post.text %></p>
+              <span class="project-author">by <%= post.author %></span>
+              <p class="project-desc"><%= post.description %></p>
+              <span class="project-date"><%= post.date %></span>
+            </div>
+          </div>
+        <% } %>
+    </div>
+
+  <a href="/" class="btn back-btn">Back</a>
+
+
+  <a href="/cheatsheet" class="btn cheatsheet-btn">Cheatsheet</a> </div>
+
+
+</body>
+</html>
