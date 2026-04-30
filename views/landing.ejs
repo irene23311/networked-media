@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Crochet Landing</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="landing-page">
+
+  <!-- ── LANG PICKER ── -->
+  <div id="page-lang" class="page active">
+    <div class="card lang-card">
+      <p class="lang-prompt">Choose your language · 选择语言</p>
+      <div class="lang-options">
+        <button onclick="chooseLang('en')">English</button>
+        <button onclick="chooseLang('zh')">中文</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LANDING ── -->
+  <div id="page-landing" class="page hidden">
+    <div class="card landing-card">
+      <p class="big-text" data-i18n="landing.welcome">Welcome to Forme!</p>
+      <p data-i18n="landing.subtitle">Let's find out the pattern for you</p>
+      <button onclick="startQuiz()" data-i18n="landing.enter">Enter</button>
+    </div>
+  </div>
+
+  <!-- ── QUIZ ── -->
+  <div id="page-quiz" class="page hidden"></div>
+
+  <!-- ── RESULT ── -->
+  <div id="page-result" class="page hidden">
+    <div class="card result-card">
+      <h2 data-i18n="result.yourPattern">Your pattern:</h2>
+      <canvas id="pattern-canvas" width="160" height="160"></canvas>
+      <h2 data-i18n="result.explanation">Explanation:</h2>
+      <p id="result-explanation"></p>
+      <a href="/home" data-i18n="result.startCreating">Start Creating</a>
+    </div>
+  </div>
+
+  <script src="/translations.js"></script>
+  <script src="/lang.js"></script>
+  <script src="/questions.js"></script>
+  <script src="/pattern.js"></script>
+  <script src="/quiz.js"></script>
+</body>
+</html>

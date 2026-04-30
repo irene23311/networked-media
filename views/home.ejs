@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forme</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/home.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="/about" data-i18n="nav.about">About</a>
+      <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
+    </div>
+    <div class="nav-center">
+      <a href="/home">Forme</a>
+    </div>
+    <div class="nav-right">
+      <a href="/profile" data-i18n="nav.profile">Profile</a>
+    </div>
+  </nav>
+  <main class="page page-top">
+    <h2 data-i18n="home.addPattern">Add a New Pattern</h2>
+    <form class="upload-card" method="POST" action="/upload" enctype="multipart/form-data">
+      <div class="form-grid">
+        <input type="text" name="text" data-i18n-placeholder="home.placeholderTitle" placeholder="Title" class="text-input"/>
+        <input type="text" name="author" data-i18n-placeholder="home.placeholderAuthor" placeholder="Author" class="text-input"/>
+        <textarea name="description" data-i18n-placeholder="home.placeholderDesc" placeholder="tell us about your pattern..." class="text-input"></textarea>
+      </div>
+      <div class="submit-container">
+        <div>
+          <label for="file-upload" class="custom-file-upload" data-i18n="home.chooseImage">Choose Image</label>
+          <input id="file-upload" name="theimage" type="file" />
+        </div>
+        <div>
+          <input type="submit" name="submitbutton" data-i18n-value="home.upload" value="Upload" />
+        </div>
+      </div>
+    </form>
+
+    <h2 data-i18n="home.getStarted">Get Started</h2>
+    <div class="row">
+      <div class="box"><img src="/images/get started.jpg"></div>
+    </div>
+
+    <div class="gallery-grid">
+      <% for(let post of clientPosts) { %>
+      <div class="post">
+        <span class="date"><%= post.date %></span>
+        <% if(post.image) { %>
+          <img src="<%= post.image %>">
+        <% } %>
+        <div class="project-info">
+          <p class="project-text"><%= post.text %></p>
+          <span class="project-author">by <%= post.author %></span>
+          <p class="project-desc"><%= post.description %></p>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <a href="/" class="btn back-btn" data-i18n="home.back">Back</a>
+  </main>
+  <script src="/translations.js"></script>
+  <script src="/lang.js"></script>
+</body>
+</html>

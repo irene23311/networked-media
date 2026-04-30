@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="/about" data-i18n="nav.about">About</a>
+      <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
+    </div>
+    <div class="nav-center">
+      <a href="/home">Forme</a>
+    </div>
+    <div class="nav-right">
+      <a href="/profile" data-i18n="nav.profile">Profile</a>
+    </div>
+  </nav>
+
+  <main class="page page-top">
+    <h1 data-i18n="gallery.title">Gallery</h1>
+    <div class="gallery-grid">
+      <% if (clientPosts.length === 0) { %>
+        <div class="card gallery-empty">
+          <h2 data-i18n="gallery.empty">No patterns yet</h2>
+          <p data-i18n="gallery.emptyDesc">Upload a pattern on the home page to start building the gallery.</p>
+          <a href="/home" class="about-link" data-i18n="gallery.goHome">Go to home</a>
+        </div>
+      <% } %>
+
+      <% for (let post of clientPosts) { %>
+        <article class="post">
+          <span class="date"><%= post.date %></span>
+          <% if (post.image) { %>
+            <img src="<%= post.image %>">
+          <% } %>
+          <div class="project-info">
+            <p class="project-text"><%= post.text %></p>
+            <span class="project-author">by <%= post.author || 'Anonymous' %></span>
+            <p class="project-desc"><%= post.description || 'No description yet.' %></p>
+          </div>
+        </article>
+      <% } %>
+    </div>
+  </main>
+  <script src="/translations.js"></script>
+  <script src="/lang.js"></script>
+</body>
+</html>

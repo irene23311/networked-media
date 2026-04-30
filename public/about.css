@@ -1,0 +1,40 @@
+/* ── ABOUT PAGE ── */
+
+.about-card {
+  background: #fce8ee;
+  border-radius: 32px;
+  padding: 3rem 2.5rem;
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.about-kicker {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #d9728a;
+}
+
+.about-card h1 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+
+.about-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.about-copy p {
+  font-size: 0.93rem;
+  line-height: 1.75;
+  color: #444;
+}
