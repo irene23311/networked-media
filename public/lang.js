@@ -23,12 +23,26 @@ function applyTranslations() {
     const val = t(el.getAttribute('data-i18n-value'));
     if (val) el.value = val;
   });
+  document.querySelectorAll('[data-lang-choice]').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-lang-choice') === getLang());
+  });
 }
 
 function chooseLang(lang) {
   setLang(lang);
   applyTranslations();
-  goTo('landing');
+  if (typeof loadSavedQuizResult === 'function') loadSavedQuizResult();
+  if (typeof loadPatternDetail === 'function') loadPatternDetail();
+
+  const quizPage = document.getElementById('page-quiz');
+  if (quizPage && !quizPage.classList.contains('hidden') && typeof renderQuestion === 'function') {
+    renderQuestion(currentQ);
+  }
+
+  const resultPage = document.getElementById('page-result');
+  if (resultPage && !resultPage.classList.contains('hidden') && typeof showResult === 'function') {
+    showResult();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', applyTranslations);

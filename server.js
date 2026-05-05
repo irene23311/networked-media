@@ -11,8 +11,8 @@ app.get("/", (request, response) => {
   response.render("landing.ejs");
 });
 
-app.get("/home", (request, response) => {
-  response.render("home.ejs",{clientPosts: serverStoredPosts });
+app.get('/pattern-detail', (request, response) => {
+  response.render('pattern-detail.ejs');
 });
 
 app.get("/gallery", (request, response) => {
@@ -43,7 +43,7 @@ app.post('/upload', upload.single('theimage'), (req, res) => {
 	}
 	serverStoredPosts.push(data);
 
-	res.redirect('/home');
+	res.redirect(req.body.redirectTo || '/gallery');
 });
 
 const PORT = process.env.PORT || 3004;

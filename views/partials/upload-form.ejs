@@ -1,0 +1,23 @@
+<section class="upload-section">
+  <h2 data-i18n="<%= headingKey %>"><%= headingFallback %></h2>
+  <% if (typeof bodyKey !== 'undefined' && bodyKey) { %>
+    <p class="upload-copy" data-i18n="<%= bodyKey %>"><%= bodyFallback %></p>
+  <% } %>
+  <form class="upload-card" method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="hidden" name="redirectTo" value="<%= redirectTo %>" />
+    <div class="form-grid">
+      <input type="text" name="text" data-i18n-placeholder="upload.placeholderTitle" placeholder="Title" class="text-input"/>
+      <input type="text" name="author" data-i18n-placeholder="upload.placeholderAuthor" placeholder="Author" class="text-input"/>
+      <textarea name="description" data-i18n-placeholder="upload.placeholderDesc" placeholder="tell us about your pattern..." class="text-input"></textarea>
+    </div>
+    <div class="submit-container">
+      <div>
+        <label for="<%= fileInputId %>" class="custom-file-upload" data-i18n="upload.chooseImage">Choose Image</label>
+        <input id="<%= fileInputId %>" name="theimage" type="file" />
+      </div>
+      <div>
+        <input type="submit" name="submitbutton" data-i18n-value="upload.submit" value="Upload" />
+      </div>
+    </div>
+  </form>
+</section>

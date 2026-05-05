@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="/about.css" />
 </head>
 <body>
+  <%- include('partials/lang-switcher') %>
   <nav>
     <div class="nav-left">
       <a href="/about" data-i18n="nav.about">About</a>
       <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
     </div>
     <div class="nav-center">
-      <a href="/home">Forme</a>
+      <a href="/">Forme</a>
     </div>
     <div class="nav-right">
       <a href="/profile" data-i18n="nav.profile">Profile</a>
@@ -30,7 +31,7 @@
         <p data-i18n="about.para3">This website responds to these problems by focusing on clarity, simplicity, and accessibility. Each pattern page is meant to stay minimal, showing only the essential information: a clear photo of the finished object and the full pattern written in plain language without abbreviations. The interface also allows users to track their current progress so they can easily continue later.</p>
         <p data-i18n="about.para4">Another goal of this project is to make crochet more accessible across languages. Many existing crochet websites are English-only, which creates barriers for non-English speakers. To address this, the website aims to use graphic-based pattern representations and language-neutral symbols whenever possible, while also supporting multiple languages such as Chinese and Japanese.</p>
       </div>
-      <a href="/home" class="about-link" data-i18n="about.browse">Browse patterns</a>
+      <a href="/gallery" class="about-link" data-i18n="about.browse">Browse patterns</a>
     </section>
   </main>
   <script src="/translations.js"></script>

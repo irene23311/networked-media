@@ -1,5 +1,5 @@
 let currentQ = 0;
-let traits = { calm: 0.5, density: 0.5, social: 0.5, symmetry: 0.5, warmth: 0.5 };
+let traits = { playful: 0.5, cozy: 0.5, detail: 0.5 };
 let answers = [];
 let selectedOptionIdx = null;
 
@@ -21,7 +21,7 @@ function startQuiz() {
   currentQ = 0;
   answers = [];
   selectedOptionIdx = null;
-  traits = { calm: 0.5, density: 0.5, social: 0.5, symmetry: 0.5, warmth: 0.5 };
+  traits = { playful: 0.5, cozy: 0.5, detail: 0.5 };
   goTo('quiz');
   renderQuestion(currentQ);
 }
@@ -30,29 +30,12 @@ function renderQuestion(idx) {
   const q = getQ(idx);
   const quizPage = document.getElementById('page-quiz');
   const isLast = idx === qCount() - 1;
-  let optionsHTML = '';
-
-  if (q.type === 'choice') {
-    optionsHTML = '<div class="options-list">';
-    q.options.forEach((opt, i) => {
-      const prefix = opt.emoji ? `${opt.emoji} ` : '';
-      optionsHTML += `<button class="option-btn" onclick="selectOption(${i})" id="opt-${i}">${prefix}${opt.label}</button>`;
-    });
-    optionsHTML += '</div>';
-  }
-
-  if (q.type === 'slider') {
-    optionsHTML = `
-      <div class="slider-scale-labels">
-        <span>${q.leftLabel}</span><span>${q.rightLabel}</span>
-      </div>
-      <input type="range" min="0" max="1" step="0.01" value="${q.defaultValue}"
-        id="slider-input" class="slider-input"
-        oninput="document.getElementById('slider-label').textContent = getSliderLabel(this.value, getQ(${idx}))"
-      />
-      <p id="slider-label" class="slider-label">${getSliderLabel(q.defaultValue, q)}</p>
-    `;
-  }
+  let optionsHTML = '<div class="options-list">';
+  q.options.forEach((opt, i) => {
+    const prefix = opt.emoji ? `${opt.emoji} ` : '';
+    optionsHTML += `<button class="option-btn" onclick="selectOption(${i})" id="opt-${i}">${prefix}${opt.label}</button>`;
+  });
+  optionsHTML += '</div>';
 
   quizPage.innerHTML = `
     <div class="question-card">
@@ -60,7 +43,7 @@ function renderQuestion(idx) {
       ${optionsHTML}
       <div class="quiz-footer">
         ${idx > 0 ? `<button class="back-btn" onclick="goBack()">${t('quiz.back')}</button>` : '<span></span>'}
-        <button id="next-btn" onclick="nextQuestion()" ${q.type === 'choice' ? 'disabled' : ''}>
+        <button id="next-btn" onclick="nextQuestion()" disabled>
           ${isLast ? t('quiz.submit') : t('quiz.next')}
         </button>
       </div>
@@ -75,29 +58,11 @@ function selectOption(idx) {
   document.getElementById('next-btn').removeAttribute('disabled');
 }
 
-function getSliderLabel(val, q) {
-  val = parseFloat(val);
-  const keys = Object.keys(q.displayValues).map(Number).sort((a, b) => a - b);
-  let closest = keys[0];
-  keys.forEach(k => { if (Math.abs(k - val) < Math.abs(closest - val)) closest = k; });
-  return q.displayValues[closest];
-}
-
 function nextQuestion() {
   const q = getQ(currentQ);
-  let delta = {};
-
-  if (q.type === 'choice') {
-    if (selectedOptionIdx === null) return;
-    delta = q.options[selectedOptionIdx].traits;
-    selectedOptionIdx = null;
-  }
-
-  if (q.type === 'slider') {
-    const val = parseFloat(document.getElementById('slider-input').value);
-    delta[q.traitKey] = val;
-    if (q.secondaryTrait) delta[q.secondaryTrait.key] = q.secondaryTrait.transform(val);
-  }
+  if (selectedOptionIdx === null) return;
+  const delta = q.options[selectedOptionIdx].traits;
+  selectedOptionIdx = null;
 
   answers.push({ delta });
   applyDelta(delta, 0.55);
@@ -121,9 +86,8 @@ function goBack() {
 
 function applyDelta(delta, weight) {
   for (const [key, val] of Object.entries(delta)) {
-    if (traits[key] !== undefined) {
-      traits[key] = clamp(traits[key] + (val - traits[key]) * weight, 0, 1);
-    }
+    if (traits[key] === undefined) traits[key] = 0.5;
+    traits[key] = clamp(traits[key] + (val - traits[key]) * weight, 0, 1);
   }
 }
 
@@ -131,14 +95,15 @@ function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
 function showResult() {
   goTo('result');
-  const canvas = document.getElementById('pattern-canvas');
-  canvas.width = 160;
-  canvas.height = 160;
+  const modelViewer = document.getElementById('pattern-model');
 
-  const archetype = generatePattern(traits, canvas);
-  localStorage.setItem('formeTraits', JSON.stringify(traits));
+  const archetype = generatePattern(traits);
+  renderArchetypePreview({ archetype, modelViewer });
   localStorage.setItem('formeArchetypeId', archetype.id);
 
-  const localArch = TRANSLATIONS[getLang()].archetypes[archetype.id];
-  document.getElementById('result-explanation').textContent = localArch.explanation;
+  const localArch = getArchetypeContent(archetype.id);
+  if (localArch) {
+    document.getElementById('result-pattern-name').textContent = localArch.name;
+    document.getElementById('result-explanation').textContent = localArch.explanation;
+  }
 }

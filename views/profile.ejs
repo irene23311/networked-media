@@ -4,15 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile</title>
   <link rel="stylesheet" href="/style.css" />
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
+  </script>
 </head>
 <body>
+  <%- include('partials/lang-switcher') %>
   <nav>
     <div class="nav-left">
       <a href="/about" data-i18n="nav.about">About</a>
       <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
     </div>
     <div class="nav-center">
-      <a href="/home">Forme</a>
+      <a href="/">Forme</a>
     </div>
     <div class="nav-right">
       <a href="/profile" data-i18n="nav.profile">Profile</a>
@@ -20,27 +24,37 @@
   </nav>
 
   <main class="page page-top">
-    <section class="card profile-card">
-      <h2 data-i18n="profile.title">Your Profile</h2>
-      <p><span data-i18n="profile.patternType">Pattern type:</span> <strong id="profile-pattern-name" data-i18n-default="profile.noMatch">Take the quiz to get your match</strong></p>
-      <p id="profile-traits" class="muted-copy" data-i18n="profile.noTraits">Your quiz traits will appear here after you finish the quiz.</p>
-      <a href="/" class="about-link" data-i18n="profile.retake">Retake quiz</a>
-    </section>
-
-    <section class="pattern-body">
-      <h1 id="pattern-name" data-i18n="profile.patternName">Your crochet pattern</h1>
-      <canvas id="pattern-canvas-detail" width="340" height="240"></canvas>
-      <div class="pattern-info-row">
-        <div class="card info-card">
-          <strong data-i18n="profile.materials">Materials:</strong>
-          <p id="pattern-materials" data-i18n="profile.noMaterials">Finish the quiz to see your recommended yarn and hook.</p>
+    <div class="profile-layout">
+      <aside class="profile-sidebar">
+        <div class="card profile-id-card">
+          <p class="profile-label" data-i18n="profile.patternType">Your match</p>
+          <h2 id="profile-pattern-name">—</h2>
+          <p id="profile-explanation" class="profile-explanation muted-copy"></p>
         </div>
-        <div class="card info-card">
-          <strong data-i18n="profile.steps">Steps:</strong>
-          <p id="pattern-steps" data-i18n="profile.noSteps">Your personalized steps will appear here after the quiz.</p>
+      </aside>
+
+      <div class="profile-main">
+        <div class="profile-model-wrap">
+          <model-viewer
+            id="pattern-model-detail"
+            class="pattern-model-detail"
+            camera-controls
+            auto-rotate
+            interaction-prompt="none"
+            shadow-intensity="1">
+          </model-viewer>
+        </div>
+
+        <div class="profile-cta-row">
+          <div class="profile-meta-chips">
+            <span class="meta-chip" id="profile-yarn"></span>
+            <span class="meta-chip" id="profile-hook"></span>
+            <span class="meta-chip" id="profile-skill"></span>
+          </div>
+          <a href="/pattern-detail" class="btn-primary" data-i18n="profile.viewDetails">Continue making</a>
         </div>
       </div>
-    </section>
+    </div>
   </main>
 
   <script src="/translations.js"></script>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Pattern</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
+  </script>
+</head>
+<body>
+  <%- include('partials/lang-switcher') %>
+  <%- include("partials/cheatsheet") %>
+  <nav>
+    <div class="nav-left">
+      <a href="/about" data-i18n="nav.about">About</a>
+      <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
+    </div>
+    <div class="nav-center">
+      <a href="/">Forme</a>
+    </div>
+    <div class="nav-right">
+      <a href="/profile" data-i18n="nav.profile">Profile</a>
+    </div>
+  </nav>
+
+  <main class="page page-top">
+
+    <section class="pattern-body">
+
+      <div class="pattern-detail-header">
+        <h1 id="pattern-name">Your crochet pattern</h1>
+      </div>
+
+      <div class="pattern-preview pattern-preview-detail">
+        <model-viewer
+          id="pattern-model-detail"
+          camera-controls
+          auto-rotate
+          interaction-prompt="none"
+          shadow-intensity="1">
+        </model-viewer>
+      </div>
+
+      <p id="pattern-explanation" class="pattern-explanation"></p>
+
+      <div class="pattern-info-row">
+
+        <div class="card info-card">
+          <strong data-i18n="profile.materials">Materials:</strong>
+          <p id="pattern-materials">Finish the quiz to see your recommended yarn.</p>
+        </div>
+
+        <div class="card info-card">
+          <strong>Difficulty:</strong>
+          <p id="pattern-skill"></p>
+        </div>
+
+      </div>
+
+      <div class="card steps-card">
+        <strong data-i18n="profile.steps">Steps:</strong>
+        <ol id="pattern-steps"></ol>
+      </div>
+
+      <%- include('partials/upload-form', {
+        headingKey: 'upload.finishedTitle',
+        headingFallback: 'Upload your finished project',
+        bodyKey: 'upload.finishedBody',
+        bodyFallback: 'Share how your version turned out.',
+        redirectTo: '/pattern-detail',
+        fileInputId: 'pattern-detail-file-upload'
+      }) %>
+
+      <div class="pattern-actions">
+        <a href="/" class="btn-primary">Retake quiz</a>
+        <a href="/gallery" class="btn-secondary" data-i18n="nav.saveExitGallery">Save and exit to gallery</a>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="/translations.js"></script>
+  <script src="/lang.js"></script>
+  <script src="/pattern.js"></script>
+  <script src="/pattern-detail.js"></script>
+</body>
+</html>

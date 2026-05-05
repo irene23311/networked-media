@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <head>
   <meta name="viewport" content="width=device-width" />
-  <title>Crochet Landing</title>
+  <title>Forme</title>
   <link rel="stylesheet" href="/style.css" />
+  <script type="module"
+  src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
+</script>
 </head>
 <body class="landing-page">
-
-  <!-- ── LANG PICKER ── -->
-  <div id="page-lang" class="page active">
-    <div class="card lang-card">
-      <p class="lang-prompt">Choose your language · 选择语言</p>
-      <div class="lang-options">
-        <button onclick="chooseLang('en')">English</button>
-        <button onclick="chooseLang('zh')">中文</button>
-      </div>
-    </div>
-  </div>
+  <%- include('partials/lang-switcher') %>
 
   <!-- ── LANDING ── -->
-  <div id="page-landing" class="page hidden">
+  <div id="page-landing" class="page active">
     <div class="card landing-card">
+      
+      <h1 class="landing-brand">Forme</h1>
       <p class="big-text" data-i18n="landing.welcome">Welcome to Forme!</p>
       <p data-i18n="landing.subtitle">Let's find out the pattern for you</p>
-      <button onclick="startQuiz()" data-i18n="landing.enter">Enter</button>
+      <button onclick="startQuiz()" data-i18n="landing.enter">Start Quiz</button>
+      <div class="landing-skip-row">
+        <a href="/gallery" class="landing-skip-btn" data-i18n="landing.skipTheQuiz">Skip the Quiz</a>
+      </div>
     </div>
   </div>
 
@@ -33,10 +31,20 @@
   <div id="page-result" class="page hidden">
     <div class="card result-card">
       <h2 data-i18n="result.yourPattern">Your pattern:</h2>
-      <canvas id="pattern-canvas" width="160" height="160"></canvas>
+      <h3 id="result-pattern-name" class="result-pattern-name"></h3>
+      <div class="pattern-preview result-pattern-preview">
+        <model-viewer
+          id="pattern-model"
+          class="pattern-model"
+          camera-controls
+          auto-rotate
+          interaction-prompt="none"
+          shadow-intensity="1">
+        </model-viewer>
+      </div>
       <h2 data-i18n="result.explanation">Explanation:</h2>
       <p id="result-explanation"></p>
-      <a href="/home" data-i18n="result.startCreating">Start Creating</a>
+      <a href="/pattern-detail" class="btn-primary" data-i18n="result.startCreating">Start Creating</a>
     </div>
   </div>
 

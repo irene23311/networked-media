@@ -4,15 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery</title>
   <link rel="stylesheet" href="/style.css" />
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js">
+  </script>
 </head>
-<body>
+<body class="gallery-page">
+  <%- include('partials/lang-switcher') %>
   <nav>
     <div class="nav-left">
       <a href="/about" data-i18n="nav.about">About</a>
       <a href="/gallery" data-i18n="nav.gallery">Gallery</a>
     </div>
     <div class="nav-center">
-      <a href="/home">Forme</a>
+      <a href="/">Forme</a>
     </div>
     <div class="nav-right">
       <a href="/profile" data-i18n="nav.profile">Profile</a>
@@ -21,31 +25,59 @@
 
   <main class="page page-top">
     <h1 data-i18n="gallery.title">Gallery</h1>
-    <div class="gallery-grid">
-      <% if (clientPosts.length === 0) { %>
-        <div class="card gallery-empty">
-          <h2 data-i18n="gallery.empty">No patterns yet</h2>
-          <p data-i18n="gallery.emptyDesc">Upload a pattern on the home page to start building the gallery.</p>
-          <a href="/home" class="about-link" data-i18n="gallery.goHome">Go to home</a>
-        </div>
-      <% } %>
+    <section class="gallery-featured">
+      <div class="gallery-featured-copy">
+        <h2 data-i18n="gallery.featuredTitle">Beginner Patterns</h2>
+        <p data-i18n="gallery.featuredBody">Here are four starter projects you can browse before uploading your own.</p>
+      </div>
+      <div class="gallery-example-grid">
+        <% ['strawberry-keychain', 'funny-worm', 'beer-mug', 'cat-keychain'].forEach(function(id) { %>
+          <a href="/pattern-detail?id=<%= id %>" class="example-card" data-archetype-id="<%= id %>">
+            <model-viewer
+              class="example-model"
+              camera-controls
+              auto-rotate
+              interaction-prompt="none"
+              shadow-intensity="1">
+            </model-viewer>
+            <div class="example-copy">
+              <h3 class="example-name"></h3>
+              <p class="example-skill"></p>
+              <p class="example-description"></p>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </section>
 
-      <% for (let post of clientPosts) { %>
-        <article class="post">
-          <span class="date"><%= post.date %></span>
-          <% if (post.image) { %>
-            <img src="<%= post.image %>">
-          <% } %>
-          <div class="project-info">
-            <p class="project-text"><%= post.text %></p>
-            <span class="project-author">by <%= post.author || 'Anonymous' %></span>
-            <p class="project-desc"><%= post.description || 'No description yet.' %></p>
-          </div>
-        </article>
-      <% } %>
-    </div>
-  </main>
+    <div class="gallery-grid">
+    <% for (let post of clientPosts) { %>
+      <article class="post">
+        <span class="date"><%= post.date %></span>
+        <% if (post.image) { %>
+          <img src="<%= post.image %>">
+        <% } %>
+        <div class="project-info">
+          <p class="project-text"><%= post.text %></p>
+          <span class="project-author">by <%= post.author || 'Anonymous' %></span>
+          <p class="project-desc"><%= post.description || 'No description yet.' %></p>
+        </div>
+      </article>
+    <% } %>
+  </div>
+
+    <%- include('partials/upload-form', {
+      headingKey: 'upload.galleryTitle',
+      headingFallback: 'Upload your pattern',
+      bodyKey: 'upload.galleryBody',
+      bodyFallback: 'Add finished projects or other crochet experiments to the gallery.',
+      redirectTo: '/gallery',
+      fileInputId: 'gallery-file-upload'
+    }) %>
+     </main>
   <script src="/translations.js"></script>
   <script src="/lang.js"></script>
+  <script src="/pattern.js"></script>
+  <script src="/gallery.js"></script>
 </body>
 </html>

@@ -1,35 +1,24 @@
 function loadSavedQuizResult() {
-  const savedTraits = localStorage.getItem('formeTraits');
   const archetypeId = localStorage.getItem('formeArchetypeId');
-  if (!savedTraits || !archetypeId) return;
+  if (!archetypeId) return;
 
-  const traits = JSON.parse(savedTraits);
-  const arch = TRANSLATIONS[getLang()].archetypes[archetypeId];
-  if (!arch) return;
+  const arch = getArchetypeContent(archetypeId);
+  const archData = getArchetypeById(archetypeId);
+  if (!arch || !archData) return;
 
-  const profileName = document.getElementById('profile-pattern-name');
-  if (profileName) profileName.textContent = arch.name;
+  const set = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
 
-  const profileTraits = document.getElementById('profile-traits');
-  if (profileTraits) profileTraits.textContent = arch.traits.join(' · ');
+  set('profile-pattern-name', arch.name);
+  set('profile-explanation', arch.explanation);
+  set('profile-yarn', arch.meta.yarn);
+  set('profile-hook', arch.meta.hook);
+  set('profile-skill', arch.meta.skill);
 
-  const patternName = document.getElementById('pattern-name');
-  if (patternName) patternName.textContent = arch.name;
-
-  const patternMaterials = document.getElementById('pattern-materials');
-  if (patternMaterials) patternMaterials.textContent = `${arch.meta.yarn} · ${arch.meta.hook}`;
-
-  const stepsEl = document.getElementById('pattern-steps');
-  if (stepsEl) {
-    stepsEl.innerHTML = arch.steps.map((step, i) => `${i + 1}. ${step}<br><br>`).join('');
-  }
-
-  const detailCanvas = document.getElementById('pattern-canvas-detail');
-  if (detailCanvas) {
-    detailCanvas.width = 340;
-    detailCanvas.height = 240;
-    generatePattern(traits, detailCanvas);
-  }
+  const modelViewer = document.getElementById('pattern-model-detail');
+  renderArchetypePreview({ archetype: archData, modelViewer });
 }
 
 loadSavedQuizResult();
